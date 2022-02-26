@@ -23,16 +23,6 @@ const eachVideoTime = [
 ];
 
 const getTutTotalTime = (mins, secs) => {
-    /*
-        1 min -> 60 sec (1*60)
-        60 min -> 3600 sec (60*60)
-        60 min == 1 hour
-        3600 sec == 1 hour
-        1. Math.floor(8526 / 3600) = 2 --> hours
-        2. 
-            i.  Math.floor(8526 % 3600) = 1326 --> secs
-            ii. Math.floor(1326 / 60) = 22 min
-    */
     let hours = Math.floor(mins / 60);
     let minutes = Math.ceil(mins % 60) + Math.ceil(secs / 60);
     console.log(`This tutorial will take total time of ${hours} hours and ${minutes} minutes`);
