@@ -38,12 +38,12 @@ const getTutTotalTime = (mins, secs) => {
     console.log(`This tutorial will take total time of ${hours} hours and ${minutes} minutes`);
 }
 
-async function getTutPlaylistTotalTime(totalTimeArr) {
+async function getTutPlaylistTotalTime(eachVideoTime) {
     try {
         let minPart = [];
         let secPart = [];
         
-        totalTimeArr.map((time) => {
+        eachVideoTime.map((time) => {
             minPart.push(Math.floor(time));
             if(((time % 1).toFixed(2).slice(2,4)).charAt(0) === "0") {
                 secPart.push(Number(((time % 1).toFixed(2).slice(2,4)).replace("0", ".")));
