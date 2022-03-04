@@ -1,31 +1,34 @@
-const eachVideoTime = [
-    1.16,
-    5.29,
-    4.33,
-    4.38,
-    4.10,
-    6.46,
-    4.36,
-    4.51,
-    3.31,
-    2.18,
-    1.43,
-    1.16,
-    5.33,
-    0.23,
-    5.18,
-    9.29,
-    3.58,
-    2.21,
-    4.26,
-    5.06,
-    142.06
-];
+const container = document.getElementById("container");
 
-const getTutTotalTime = (mins, secs) => {
-    let hours = Math.floor(mins / 60);
-    let minutes = Math.ceil(mins % 60) + Math.ceil(secs / 60);
-    console.log(`This tutorial will take total time of ${hours} hours and ${minutes} minutes`);
+function readFile(input) {
+    let file = input.files[0];
+    
+    let reader = new FileReader();
+    
+    reader.readAsText(file);
+
+    reader.onload = function() {
+        container.innerHTML = reader.result;
+        getTutPlaylistTotalTime(getTimeArr());
+        console.clear();
+    };
+    
+    reader.onerror = function() {
+        container.innerHTML = reader.error;
+    };
+}
+
+function getTimeArr() {
+    const arr = document.querySelectorAll("ytd-thumbnail-overlay-time-status-renderer.style-scope, ytd-thumbnail-overlay-time-status-renderer.ytd-thumbnail");
+    let newStr = [];
+    for(let i=0;i<=34;i++) {
+        if(arr[i].childNodes[2].innerText.includes("\n")) {
+            newStr.push(parseFloat(arr[i].childNodes[2].innerText.replaceAll("\n", "").trim().replaceAll(":", ".")));
+        } else {
+            newStr.push(parseFloat(arr[i].childNodes[2].innerText.replaceAll(":", ".")));
+        }
+    }
+    return newStr;
 }
 
 async function getTutPlaylistTotalTime(eachVideoTime) {
@@ -49,8 +52,30 @@ async function getTutPlaylistTotalTime(eachVideoTime) {
     } catch(error) {
         console.log(error);
     } finally {
+        console.clear();
         console.log("You can do it!");
     }
 }
 
-getTutPlaylistTotalTime(eachVideoTime);
+const getTutTotalTime = (mins, secs) => {
+    let hours = Math.floor(mins / 60);
+    let minutes = Math.ceil(mins % 60) + Math.ceil(secs / 60);
+    document.body.innerHTML = `This tutorial will take total time of ${hours} hours and ${minutes} minutes`;
+}
+
+/*
+// NOTE --> {arr[0].childNodes[2].innerText}
+function getTimeArr() {
+    const arr = document.querySelectorAll("ytd-thumbnail-overlay-time-status-renderer.style-scope, ytd-thumbnail-overlay-time-status-renderer.ytd-thumbnail");
+    let newStr = [];
+    for(let i=0;i<=34;i++) {
+        if(arr[i].childNodes[2].innerText.includes("\n")) {
+            newStr.push(parseFloat(arr[i].childNodes[2].innerText.replaceAll("\n", "").trim().replaceAll(":", ".")));
+        } else {
+            newStr.push(parseFloat(arr[i].childNodes[2].innerText.replaceAll(":", ".")));
+        }
+    }
+    return newStr;
+}
+console.log(getTimeArr());
+*/
